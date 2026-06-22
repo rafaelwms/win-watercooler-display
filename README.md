@@ -1,77 +1,55 @@
-# Windows CPU Cooler Display Controller
+# Windows Watercooler Display Controller
 
 *[Português](#português) | [English](#english)*
 
-A native Windows script to control USB CPU temperature displays, using WMI to read hardware sensors and PyUSB for device communication.
+A native Windows System Tray application built in .NET 8 (C#) to monitor CPU temperatures and control USB Watercooler displays (VID: 0xAA88, PID: 0x8666).
 
 ---
 
 ## English
 
-### 📋 Prerequisites
+### 🌟 Features
+- **Native Execution:** Built with C# and .NET 8.
+- **Silent Background Process:** Runs discreetly in the Windows System Tray.
+- **Modern Hardware Support:** Uses `LibreHardwareMonitor` (v0.9.6+) to detect temperatures even on the latest CPU architectures.
+- **Plug & Play (No Zadig Required):** Communicates directly via native Windows HID.
 
-- Windows 10 or 11
-- Python 3.10+ (Make sure to check "Add Python to PATH" during installation)
-- USB temperature display device (VID: 0xaa88, PID: 0x8666)
-- **Zadig** (Required to replace the default Windows USB driver)
+### 🚀 Installation (Release)
+1. Go to the [Releases](../../releases) page and download the latest `.exe` or `.zip` file.
+2. Extract the file to a folder of your choice.
+3. Right-click the executable and select **"Run as Administrator"** (Required for hardware temperature reading).
+4. Check your System Tray! The icon will display the current temperature and send it to your watercooler.
 
-### ⚠️ Important: USB Driver Setup (Zadig)
-
-Windows installs a default driver that prevents Python (`pyusb`) from communicating directly with the display. You **must** change this driver:
-
-1. Download [Zadig](https://zadig.akeo.ie/).
-2. Open Zadig, click on **Options** -> **List All Devices**.
-3. In the dropdown, find your USB display (look for ID `aa88:8666` or similar generic USB names).
-4. Select **WinUSB** as the target driver and click **Replace Driver**.
-
-### 🚀 Automatic Installation
-
-1. Download or clone this repository to a folder on your computer.
-2. Double-click the `windows_install.bat` file.
-3. The script will automatically:
-   - Create a Python virtual environment.
-   - Install all required libraries (`wmi`, `pyusb`, etc.).
-   - Create an invisible startup shortcut so the display works automatically every time you turn on your PC.
-
-### 🗑️ Uninstallation
-
-To completely remove the background service:
-1. Press `Win + R`, type `shell:startup`, and press Enter.
-2. Delete the file named `CPUCoolerDisplay.vbs`.
-3. You can now safely delete the project folder.
+### ⚠️ Troubleshooting (The Zadig Trap)
+If you previously used a Python script or installed a custom driver via **Zadig** (like `WinUSB` or `libusb-win32`), this application **will not find your device**. 
+To fix this:
+1. Open Windows **Device Manager**.
+2. Find your display (usually under `libusb-win32 devices` or Universal Serial Bus devices).
+3. Right-click -> **Uninstall device**.
+4. **CRITICAL:** Check the box that says **"Attempt to remove the driver for this device"**.
+5. Click "Scan for hardware changes". The device should return as a standard Human Interface Device (HID).
 
 ---
 
 ## Português
 
-### 📋 Pré-requisitos
+### 🌟 Funcionalidades
+- **Execução Nativa:** Construído em C# com .NET 8.
+- **Processo Silencioso:** Roda discretamente na bandeja do sistema (System Tray) do Windows.
+- **Suporte a Hardware Moderno:** Utiliza o `LibreHardwareMonitor` (v0.9.6+) para detectar temperaturas até nas arquiteturas de CPU mais recentes.
+- **Plug & Play (Sem Zadig):** Comunicação direta via HID nativo do Windows.
 
-- Windows 10 ou 11
-- Python 3.10+ (Certifique-se de marcar "Add Python to PATH" durante a instalação)
-- Dispositivo USB de display de temperatura (VID: 0xaa88, PID: 0x8666)
-- **Zadig** (Necessário para substituir o driver USB padrão do Windows)
+### 🚀 Instalação (Release)
+1. Vá até a página de [Releases](../../releases) e baixe o arquivo `.exe` ou `.zip` mais recente.
+2. Extraia para uma pasta da sua preferência.
+3. Clique com o botão direito no executável e selecione **"Executar como Administrador"** (Obrigatório para leitura dos sensores físicos).
+4. Olhe a bandeja do seu sistema (perto do relógio)! O ícone mostrará a temperatura e a enviará para o watercooler.
 
-### ⚠️ Importante: Configuração do Driver USB (Zadig)
-
-O Windows instala um driver padrão que impede o Python (`pyusb`) de se comunicar diretamente com o visor. Você **precisa** alterar este driver:
-
-1. Baixe o [Zadig](https://zadig.akeo.ie/).
-2. Abra o Zadig, clique em **Options** -> **List All Devices**.
-3. Na lista, encontre o seu visor USB (procure pelo ID `aa88:8666` ou nomes genéricos de USB).
-4. Selecione **WinUSB** como o driver de destino e clique em **Replace Driver**.
-
-### 🚀 Instalação Automática
-
-1. Baixe ou clone este repositório para uma pasta no seu computador.
-2. Dê um duplo clique no arquivo `windows_install.bat`.
-3. O script irá automaticamente:
-   - Criar um ambiente virtual Python.
-   - Instalar todas as bibliotecas necessárias (`wmi`, `pyusb`, etc.).
-   - Criar um atalho de inicialização invisível para que o visor funcione automaticamente toda vez que você ligar o PC.
-
-### 🗑️ Desinstalação
-
-Para remover completamente o serviço que roda em segundo plano:
-1. Pressione `Win + R`, digite `shell:startup` e pressione Enter.
-2. Apague o arquivo chamado `CPUCoolerDisplay.vbs`.
-3. Agora você pode excluir a pasta do projeto com segurança.
+### ⚠️ Solução de Problemas (A Armadilha do Zadig)
+Se você usou scripts em Python anteriormente ou instalou um driver customizado via **Zadig** (como `WinUSB` ou `libusb-win32`), este aplicativo **não conseguirá encontrar o seu visor**.
+Para resolver:
+1. Abra o **Gerenciador de Dispositivos** do Windows.
+2. Encontre o seu visor (geralmente em `libusb-win32 devices` ou Dispositivos USB).
+3. Clique com o botão direito -> **Desinstalar dispositivo**.
+4. **CRÍTICO:** Marque a caixinha **"Tentar remover o driver deste dispositivo"**.
+5. Clique em "Verificar se há alterações de hardware". O dispositivo voltará a ser um Dispositivo de Interface Humana (HID) padrão.
